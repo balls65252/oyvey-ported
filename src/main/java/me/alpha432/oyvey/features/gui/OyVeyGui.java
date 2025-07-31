@@ -79,24 +79,15 @@ public class OyVeyGui extends Screen {
 
 @Override
 public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-    // Získame inštanciu MinecraftClient
-    MinecraftClient mc = MinecraftClient.getInstance();
-
-    Item.context = context;
-    context.fill(0, 0, context.getScaledWindowWidth(), context.getScaledWindowHeight(), new Color(0, 0, 0, 120).hashCode());
-    this.components.forEach(components -> components.drawScreen(context, mouseX, mouseY, delta));
-
-    float hue = (System.currentTimeMillis() % 10000L) / 10000.0f; // cyklus 10 sekúnd
-    int rgb = Color.HSBtoRGB(hue, 1f, 1f);
+    MinecraftClient mc = MinecraftClient.getInstance();  // Inicializácia mc
 
     String logoText = "Bob Client 1.0.0";
-
-    // Používame správne textRenderer namiesto starého fontRenderer
     int x = context.getScaledWindowWidth() - mc.textRenderer.getWidth(logoText) - 5;
     int y = 5;
 
-    mc.textRenderer.drawWithShadow(context.getMatrices(), logoText, x, y, rgb);
+    mc.textRenderer.drawWithShadow(context.getMatrices(), logoText, x, y, 0xFFFFFF);
 }
+
 
 
 
