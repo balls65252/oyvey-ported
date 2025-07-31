@@ -100,6 +100,7 @@ public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 
 
 
+
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int clickedButton) {
         this.components.forEach(components -> components.mouseClicked((int) mouseX, (int) mouseY, clickedButton));
