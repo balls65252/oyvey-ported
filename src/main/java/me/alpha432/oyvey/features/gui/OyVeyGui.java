@@ -74,17 +74,18 @@ public class OyVeyGui extends Screen {
     }
 
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        MinecraftClient mc = MinecraftClient.getInstance();
+public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+    MinecraftClient mc = MinecraftClient.getInstance();
 
-        String logoText = "Bob Client 1.0.0";
-        int x = context.getScaledWindowWidth() - mc.textRenderer.getWidth(logoText) - 5;
-        int y = 5;
+    String logoText = "Bob Client 1.0.0";
+    int x = context.getScaledWindowWidth() - mc.textRenderer.getWidth(logoText) - 5;
+    int y = 5;
 
-        mc.textRenderer.drawWithShadow(context.getMatrices(), logoText, x, y, 0xFFFFFF);
+    mc.textRenderer.drawWithShadow(context.getMatrices(), logoText, x, y, 0xFFFFFF);
 
-        this.components.forEach(component -> component.drawScreen(context, mouseX, mouseY, delta));
-    }
+    this.components.forEach(component -> component.drawScreen(context, mouseX, mouseY, delta));
+}
+
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int clickedButton) {
