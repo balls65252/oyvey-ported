@@ -76,11 +76,22 @@ public class OyVeyGui extends Screen {
     }
 
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        Item.context = context;
-        context.fill(0, 0, context.getScaledWindowWidth(), context.getScaledWindowHeight(), new Color(0, 0, 0, 120).hashCode());
-        this.components.forEach(components -> components.drawScreen(context, mouseX, mouseY, delta));
-    }
+public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+    Item.context = context;
+    context.fill(0, 0, context.getScaledWindowWidth(), context.getScaledWindowHeight(), new Color(0, 0, 0, 120).hashCode());
+    this.components.forEach(components -> components.drawScreen(context, mouseX, mouseY, delta));
+
+    float hue = (System.currentTimeMillis() % 10000L) / 10000.0f; // cyklus 10 sekúnd
+    int rgb = Color.HSBtoRGB(hue, 1f, 1f);
+
+    String logoText = "Bob Client 1.0.0";
+
+    int x = context.getScaledWindowWidth() - mc.fontRenderer.getStringWidth(logoText) - 5;
+    int y = 5;
+
+    mc.fontRenderer.drawStringWithShadow(context.getMatrices(), logoText, x, y, rgb);
+}
+
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int clickedButton) {
