@@ -5,6 +5,7 @@ import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.gui.items.Item;
 import me.alpha432.oyvey.features.gui.items.buttons.ModuleButton;
 import me.alpha432.oyvey.features.modules.Module;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
@@ -21,7 +22,7 @@ public class OyVeyGui extends Screen {
         INSTANCE = new OyVeyGui();
     }
 
-    private final ArrayList<Component> components = new ArrayList();
+    private final ArrayList<Component> components = new ArrayList<>();
 
     public OyVeyGui() {
         super(Text.literal("OyVey"));
@@ -48,7 +49,6 @@ public class OyVeyGui extends Screen {
         int x = -84;
         for (final Module.Category category : OyVey.moduleManager.getCategories()) {
             this.components.add(new Component(category.getName(), x += 90, 4, true) {
-
                 @Override
                 public void setupItems() {
                     counter1 = new int[]{1};
@@ -75,22 +75,20 @@ public class OyVeyGui extends Screen {
         }
     }
 
-    import net.minecraft.client.MinecraftClient;
+    @Override
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        MinecraftClient mc = MinecraftClient.getInstance();  // Inicializácia mc
 
-@Override
-public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-    MinecraftClient mc = MinecraftClient.getInstance();  // Inicializácia mc
+        String logoText = "Bob Client 1.0.0";
+        int x = context.getScaledWindowWidth() - mc.textRenderer.getWidth(logoText) - 5;
+        int y = 5;
 
-    String logoText = "Bob Client 1.0.0";
-    int x = context.getScaledWindowWidth() - mc.textRenderer.getWidth(logoText) - 5;
-    int y = 5;
+        mc.textRenderer.drawWithShadow(context.getMatrices(), logoText, x, y, 0xFFFFFF);
 
-    mc.textRenderer.drawWithShadow(context.getMatrices(), logoText, x, y, 0xFFFFFF);
-}
-
-
-
-
+        Item.context = context;
+        context.fill(0, 0, context.getScaledWindowWidth(), context.getScaledWindowHeight(), new Color(0, 0, 0, 120).hashCode());
+        this.components.forEach(components -> components.drawScreen(context, mouseX, mouseY, delta));
+    }
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int clickedButton) {
@@ -147,3 +145,4 @@ public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         return null;
     }
 }
+
