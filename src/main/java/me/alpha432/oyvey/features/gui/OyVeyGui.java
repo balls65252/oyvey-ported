@@ -5,22 +5,23 @@ import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.gui.items.Item;
 import me.alpha432.oyvey.features.gui.items.buttons.ModuleButton;
 import me.alpha432.oyvey.features.modules.Module;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 
 public class OyVeyGui extends Screen {
+    private static OyVeyGui oyveyGui;
     private static OyVeyGui INSTANCE;
-
-    private final ArrayList<Component> components = new ArrayList<>();
 
     static {
         INSTANCE = new OyVeyGui();
     }
+
+    private final ArrayList<Component> components = new ArrayList();
 
     public OyVeyGui() {
         super(Text.literal("OyVey"));
@@ -36,7 +37,7 @@ public class OyVeyGui extends Screen {
     }
 
     public static OyVeyGui getClickGui() {
-        return getInstance();
+        return OyVeyGui.getInstance();
     }
 
     private void setInstance() {
@@ -47,6 +48,7 @@ public class OyVeyGui extends Screen {
         int x = -84;
         for (final Module.Category category : OyVey.moduleManager.getCategories()) {
             this.components.add(new Component(category.getName(), x += 90, 4, true) {
+
                 @Override
                 public void setupItems() {
                     counter1 = new int[]{1};
@@ -58,7 +60,7 @@ public class OyVeyGui extends Screen {
                 }
             });
         }
-        this.components.forEach(component -> component.getItems().sort(Comparator.comparing(Feature::getName)));
+        this.components.forEach(components -> components.getItems().sort(Comparator.comparing(Feature::getName)));
     }
 
     public void updateModule(Module module) {
@@ -82,13 +84,13 @@ public class OyVeyGui extends Screen {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int clickedButton) {
-        this.components.forEach(component -> component.mouseClicked((int) mouseX, (int) mouseY, clickedButton));
+        this.components.forEach(components -> components.mouseClicked((int) mouseX, (int) mouseY, clickedButton));
         return super.mouseClicked(mouseX, mouseY, clickedButton);
     }
 
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int releaseButton) {
-        this.components.forEach(component -> component.mouseReleased((int) mouseX, (int) mouseY, releaseButton));
+        this.components.forEach(components -> components.mouseReleased((int) mouseX, (int) mouseY, releaseButton));
         return super.mouseReleased(mouseX, mouseY, releaseButton);
     }
 
@@ -129,9 +131,8 @@ public class OyVeyGui extends Screen {
 
     public Component getComponentByName(String name) {
         for (Component component : this.components) {
-            if (component.getName().equalsIgnoreCase(name)) {
-                return component;
-            }
+            if (!component.getName().equalsIgnoreCase(name)) continue;
+            return component;
         }
         return null;
     }
